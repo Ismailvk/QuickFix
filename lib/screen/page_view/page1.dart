@@ -22,8 +22,6 @@ class _page1State extends State<page1> {
     final profitAndRevenue = await DatabaseHelper.instance
         .getRevenueAndProfitForToday(widget.loggeduser['id'], DateTime.now());
     widget.profitAndRevenueNotifier.value = profitAndRevenue;
-
-    // ignore: invalid_use_of_protected_member
     widget.profitAndRevenueNotifier.notifyListeners();
   }
 

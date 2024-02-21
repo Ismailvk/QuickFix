@@ -17,19 +17,16 @@ class PdfViewerPage extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            color: Colors.grey[200], // Set background color to a light gray
-            padding:
-                const EdgeInsets.all(10), // Add padding to simulate margins
+            color: Colors.grey[200],
+            padding: const EdgeInsets.all(10),
             height: 660,
             child: Container(
               decoration: BoxDecoration(
-                border:
-                    Border.all(color: Colors.black, width: 1.0), // Add border
+                border: Border.all(color: Colors.black, width: 1.0),
               ),
               child: Center(
                 child: SizedBox(
-                  width: double.infinity, // Set the width to 300
-                  // height: double.infinity, // Set the height to 300
+                  width: double.infinity,
                   child: PDFView(filePath: pdfPath),
                 ),
               ),
