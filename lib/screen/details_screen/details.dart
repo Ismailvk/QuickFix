@@ -1,7 +1,11 @@
-// ignore_for_file: must_be_immutable
+import 'dart:io';
+import 'package:intl/intl.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'package:first_project/database/database.dart';
 import 'package:first_project/screen/details_screen/show_picture.dart';
 import 'package:first_project/screen/home_screen/ScreenHome.dart';
+import 'package:first_project/screen/pdf_screen/pdf_screen.dart';
 import 'package:first_project/screen/widget/choicechips_widget.dart';
 import 'package:first_project/screen/widget/device_details_card_widget.dart';
 import 'package:first_project/screen/widget/heading_container_widget.dart';
@@ -13,6 +17,8 @@ import 'package:first_project/screen/widget/text_widget.dart';
 import 'package:first_project/screen/widget/total_card_widget.dart';
 import 'package:first_project/screen/widget/validation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ScreenDetails extends StatefulWidget {
   const ScreenDetails(
@@ -36,11 +42,13 @@ class _ScreenDetailsState extends State<ScreenDetails> {
   TextEditingController serviceChargeController = TextEditingController();
   TextEditingController commentController = TextEditingController();
 
-  late var total;
+  late int total;
   String? comment;
   int? service;
   int? spare;
   int? oldSpare;
+  String? pdfPath;
+
   @override
   void initState() {
     super.initState();
@@ -53,6 +61,159 @@ class _ScreenDetailsState extends State<ScreenDetails> {
     spareChargeController.text = spare == null ? '' : spare.toString();
     serviceChargeController.text = service == null ? '' : service.toString();
     commentController.text = comment ?? '';
+  }
+
+  Future<void> createPdf(String today, [String? items]) async {
+    final ByteData image = await rootBundle.load('assets/images/logo.png');
+    List<String?> itemList = [];
+    if (items != null) {
+      if (items.contains('0')) {
+        itemList.add('Display');
+      }
+      if (items.contains('1')) {
+        itemList.add('Battery');
+      }
+      if (items.contains('2')) {
+        itemList.add('Touch');
+      }
+      if (items.contains('3')) {
+        itemList.add('Board');
+      }
+      if (items.contains('4')) {
+        itemList.add('Speaker');
+      }
+      if (items.contains('5')) {
+        itemList.add('Additional Spare');
+      }
+    }
+    try {
+      final pdf = pw.Document();
+      pdf.addPage(
+        pw.Page(
+          margin: const pw.EdgeInsets.all(0),
+          build: (pw.Context context) {
+            return pw.Padding(
+              padding: const pw.EdgeInsets.symmetric(
+                horizontal: 15,
+              ),
+              child: pw.Column(
+                children: [
+                  pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.center,
+                    children: [
+                      pw.Image(
+                        fit: pw.BoxFit.cover,
+                        pw.MemoryImage(
+                          image.buffer.asUint8List(),
+                        ),
+                        width: 60,
+                        height: 70,
+                      ),
+                      pw.SizedBox(width: 20),
+                      pw.Column(
+                        children: [
+                          pw.Text('Quick Fix',
+                              style: const pw.TextStyle(fontSize: 24)),
+                          pw.Text('+91 9876543210',
+                              style: const pw.TextStyle(fontSize: 12))
+                        ],
+                      ),
+                    ],
+                  ),
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.only(right: 15),
+                    child: pw.Container(
+                        child: pw.Text('Date: $today'),
+                        alignment: pw.Alignment.bottomRight),
+                  ),
+
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.symmetric(horizontal: 15),
+                    child: pw.Divider(thickness: 1),
+                  ),
+                  pw.SizedBox(height: 30),
+                  pw.Align(
+                    alignment: pw.Alignment.topLeft,
+                    child: pw.Container(
+                      width: 200,
+                      // ignore: deprecated_member_use
+                      child: pw.Table.fromTextArray(
+                        context: context,
+                        border: null,
+                        headerAlignment: pw.Alignment.centerLeft,
+                        headerStyle:
+                            pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                        headerDecoration: const pw.BoxDecoration(
+                            color: PdfColor.fromInt(0xFFE0E0E0)),
+                        data: <List<String>>[
+                          <String>['Items'],
+                          ...itemList.map((item) => [item ?? 'No item found']),
+                        ],
+                      ),
+                    ),
+                  ),
+                  pw.SizedBox(height: 20),
+                  // ignore: deprecated_member_use
+                  pw.Table.fromTextArray(
+                    context: context,
+                    border: null,
+                    headerAlignment: pw.Alignment.centerLeft,
+                    headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                    headerDecoration: const pw.BoxDecoration(
+                        color: PdfColor.fromInt(0xFFE0E0E0)),
+                    data: <List<String>>[
+                      <String>['Charges', 'Total'],
+                      <String>[
+                        'Spare Charge   ',
+                        '${spareChargeController.text}'
+                      ],
+                      <String>[
+                        'Customer Charge',
+                        '${serviceChargeController.text}'
+                      ],
+                    ],
+                  ),
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.symmetric(horizontal: 5),
+                    child: pw.Divider(thickness: 1),
+                  ),
+                  pw.Row(
+                    children: [
+                      pw.SizedBox(width: 11 * PdfPageFormat.cm),
+                      pw.Text('Grand Total:'),
+                      pw.SizedBox(width: 15),
+                      pw.Text((total).toString())
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      );
+
+      final output = await getExternalStorageDirectory();
+      if (output == null) {
+        throw const FileSystemException(
+            "Unable to get external storage directory");
+      }
+
+      final file = File('${output.path}/Quickfix.pdf');
+      await file.writeAsBytes(await pdf.save());
+
+      setState(() {
+        pdfPath = file.path;
+      });
+
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => PdfViewerPage(pdfPath!)),
+        );
+      }
+    } catch (e) {
+      debugPrint('Error creating PDF: $e');
+    }
   }
 
   @override
@@ -107,9 +268,23 @@ class _ScreenDetailsState extends State<ScreenDetails> {
                         Text('Set up methods',
                             style: TextStyle(color: Colors.white)),
                         SizedBox(height: 10),
-                        PdfAndCallWidget(
-                          phoneNumber: widget
-                              .customerData[DatabaseHelper.coloumPhoneNumber],
+                        GestureDetector(
+                          onTap: () async {
+                            final tempSelectedCount = await DatabaseHelper
+                                .instance
+                                .getColumnChoiceChipsValue(widget.customerData[
+                                    DatabaseHelper.detailscoloumId]);
+                            DateTime date = DateTime.now();
+                            String formattedDate =
+                                DateFormat('dd/MM/yyyy').format(date);
+                            tempSelectedCount != null
+                                ? createPdf(formattedDate, tempSelectedCount)
+                                : createPdf(formattedDate);
+                          },
+                          child: PdfAndCallWidget(
+                            phoneNumber: widget
+                                .customerData[DatabaseHelper.coloumPhoneNumber],
+                          ),
                         )
                       ],
                     ),
@@ -248,34 +423,66 @@ class _ScreenDetailsState extends State<ScreenDetails> {
 
   addYourAmountButton(String commentData) async {
     if (amountkey.currentState!.validate()) {
-      // Convert the amount values to double
       int? spareAmount = int.parse(spareChargeController.text);
       int? serviceAmount = int.parse(serviceChargeController.text);
-
-      // Store the values in the database
-      await DatabaseHelper.instance.updateSpareAmount(
-          widget.customerData[DatabaseHelper.detailscoloumId], spareAmount);
-      // update service amount in database
-      await DatabaseHelper.instance.updateServiceAmount(
-          widget.customerData[DatabaseHelper.detailscoloumId], serviceAmount);
-      // get stock amount in database
+      int updatedStockAmount = 0;
+      int updatedServiceAmount = serviceAmount;
+      int updatedSpareAmount = spareAmount;
+      //get spare amount
+      final spare = await DatabaseHelper.instance
+          .getSpareAmount(widget.customerData[DatabaseHelper.detailscoloumId]);
+      // get service amount
+      final service = await DatabaseHelper.instance.getServiceAmount(
+          widget.customerData[DatabaseHelper.detailscoloumId]);
+      //get stock amount
       final stockData = await DatabaseHelper.instance
           .getStockAmount(widget.userdata[DatabaseHelper.usercoloumId]);
-      final updatedData = stockData - spareAmount;
+
+      if (spareAmount != spare && spareAmount != 0) {
+        int checkedSpareamount = (spare - spareAmount).abs();
+        updatedStockAmount = checkedSpareamount;
+        updatedSpareAmount = checkedSpareamount;
+        //updation code
+        await DatabaseHelper.instance.updateSpareAmount(
+            widget.customerData[DatabaseHelper.detailscoloumId],
+            checkedSpareamount);
+      }
+      if (serviceAmount != service && serviceAmount != 0) {
+        int checkedServiceamount = (service - serviceAmount).abs();
+        updatedServiceAmount = checkedServiceamount;
+        //updation code
+        await DatabaseHelper.instance.updateServiceAmount(
+            widget.customerData[DatabaseHelper.detailscoloumId],
+            checkedServiceamount);
+      }
+      if (spare == 0 && spare != spareAmount) {
+        updatedStockAmount = spareAmount;
+        // spare add code
+        await DatabaseHelper.instance.updateSpareAmount(
+            widget.customerData[DatabaseHelper.detailscoloumId], spareAmount);
+      }
+      if (service == 0 && service != serviceAmount) {
+        // service add code
+        await DatabaseHelper.instance.updateServiceAmount(
+            widget.customerData[DatabaseHelper.detailscoloumId], serviceAmount);
+      }
+      //update comment
+      await DatabaseHelper.instance.updateComment(
+          widget.customerData[DatabaseHelper.detailscoloumId], commentData);
+      final updatedData = stockData - updatedStockAmount;
       // update and decrease stock amount in database (when user add his spare amount)
       await DatabaseHelper.instance.decreseStockAmount(
           id: widget.userdata[DatabaseHelper.usercoloumId],
           updatedStockamount: updatedData);
 
-      int revenue = spareAmount + serviceAmount;
+      int revenue = updatedSpareAmount + updatedServiceAmount;
 
       await DatabaseHelper.instance.updateRevenueamount(
           widget.customerData[DatabaseHelper.detailscoloumId], revenue);
-      int profit = serviceAmount;
+      int profit = updatedServiceAmount;
       await DatabaseHelper.instance.updateprofit(
           widget.customerData[DatabaseHelper.detailscoloumId], profit);
-      await DatabaseHelper.instance.updateComment(
-          widget.customerData[DatabaseHelper.detailscoloumId], commentData);
+
       widget.valueNotifier.value = {
         'profitAmount': profit,
         'revenueAmount': revenue,

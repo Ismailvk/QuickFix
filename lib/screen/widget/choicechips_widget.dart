@@ -94,8 +94,8 @@ class _ChoiceChipsWidgetState extends State<ChoiceChipsWidget> {
                   } else {
                     selectedChoices.remove(index);
                   }
-                  selectedCountsForDatabase =
-                      selectedChoices.join(', '); // Update the string
+                  // Update the string
+                  selectedCountsForDatabase = selectedChoices.join(', ');
                 });
 
                 await DatabaseHelper.instance.UpdateChoiceChipsValues(

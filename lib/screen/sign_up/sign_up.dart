@@ -10,12 +10,9 @@ class ScreenSignup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _signupKey = GlobalKey<FormState>();
-    // final currentWidth = MediaQuery.of(context).size.width;
-    // final currentHeight = MediaQuery.of(context).size.height;
     TextEditingController usernameController = TextEditingController();
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
-    // final Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: ListView(
         shrinkWrap: true,
@@ -115,6 +112,7 @@ class ScreenSignup extends StatelessWidget {
                     String name = usernameController.text;
                     String email = emailController.text;
                     String password = passwordController.text;
+                    // ignore: unused_local_variable
                     int? islogin;
 
                     // Create a map containing the user data

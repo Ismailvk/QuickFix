@@ -23,38 +23,15 @@ class _ScreenSplashState extends State<ScreenSplash> {
     final currentWidth = MediaQuery.of(context).size.width;
     final currentHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 41, 161, 110),
+      backgroundColor: Colors.white,
       body: Container(
-        width: currentWidth,
-        height: currentHeight,
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.only(top: 150),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image(
-                    image: AssetImage('assets/images/communication.png'),
-                    height: 100),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Mobile ',
-                      style: TextStyle(color: Colors.white, fontSize: 28),
-                    ),
-                    Text(
-                      'Care',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 200),
-              ],
+            padding: const EdgeInsets.only(top: 10),
+            child: Image(
+              image: AssetImage('assets/images/logo.png'),
+              height: currentHeight / 5,
+              width: currentWidth / 2.5,
             ),
           ),
         ),

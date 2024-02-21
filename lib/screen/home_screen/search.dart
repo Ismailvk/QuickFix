@@ -1,12 +1,17 @@
 import 'package:first_project/database/database.dart';
+import 'package:first_project/screen/details_screen/details.dart';
 import 'package:first_project/screen/widget/card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// ignore: must_be_immutable
 class ScrreenSearch extends StatefulWidget {
   final Map<String, dynamic> loggeduser;
-
-  const ScrreenSearch({Key? key, required this.loggeduser});
+  ValueNotifier<Map> profitAndRevenueNotifier = ValueNotifier({});
+  ScrreenSearch(
+      {Key? key,
+      required this.loggeduser,
+      required this.profitAndRevenueNotifier});
 
   @override
   State<ScrreenSearch> createState() => _ScrreenSearchState();
@@ -83,21 +88,33 @@ class _ScrreenSearchState extends State<ScrreenSearch> {
                 ),
               ),
               isFoundResult == true
-                  ? ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: filterList.length,
-                      itemBuilder: (context, index) {
-                        final data = filterList[index];
-
-                        return CardWidget(
-                          name: data[DatabaseHelper.coloumCustomerName],
-                          image: data[DatabaseHelper.coloumDeviceImage],
-                          device: data[DatabaseHelper.coloumDeviceName],
-                          date: data[DatabaseHelper.coloumDate],
-                          userdata: widget.loggeduser,
-                          customerData: filterList[index],
-                        );
-                      },
+                  ? Expanded(
+                      child: ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: filterList.length,
+                        itemBuilder: (context, index) {
+                          final data = filterList[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => ScreenDetails(
+                                      userdata: widget.loggeduser,
+                                      customerData: data,
+                                      valueNotifier:
+                                          widget.profitAndRevenueNotifier)));
+                            },
+                            child: CardWidget(
+                              name: data[DatabaseHelper.coloumCustomerName],
+                              image: data[DatabaseHelper.coloumDeviceImage],
+                              device: data[DatabaseHelper.coloumDeviceName],
+                              date: data[DatabaseHelper.coloumDate],
+                              userdata: widget.loggeduser,
+                              customerData: filterList[index],
+                            ),
+                          );
+                        },
+                      ),
                     )
                   : Padding(
                       padding: const EdgeInsets.only(top: 180),

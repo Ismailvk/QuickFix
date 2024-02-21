@@ -108,10 +108,10 @@ class _ScreenHomeState extends State<ScreenHome> {
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5), // Shadow color
-                      spreadRadius: 0.7, // Spread radius
-                      blurRadius: 40, // Blur radius
-                      offset: Offset(0, 4), // Offset in the y-axis
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 0.7,
+                      blurRadius: 40,
+                      offset: Offset(0, 4),
                     ),
                   ],
                   borderRadius: BorderRadius.circular(15),
@@ -121,8 +121,11 @@ class _ScreenHomeState extends State<ScreenHome> {
                   child: TextField(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              ScrreenSearch(loggeduser: widget.loggeduser)));
+                          builder: (context) => ScrreenSearch(
+                                loggeduser: widget.loggeduser,
+                                profitAndRevenueNotifier:
+                                    profitAndRevenueNotifier,
+                              )));
                     },
                     decoration: InputDecoration(
                       hintText: 'Search here',

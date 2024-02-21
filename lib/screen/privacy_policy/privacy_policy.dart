@@ -18,7 +18,7 @@ class ScreenPrivacyPolicy extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Privacy Policy for Mobile Care App',
+              'Privacy Policy for Quick Fix App',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16.0),

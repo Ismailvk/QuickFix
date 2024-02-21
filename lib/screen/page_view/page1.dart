@@ -23,6 +23,7 @@ class _page1State extends State<page1> {
         .getRevenueAndProfitForToday(widget.loggeduser['id'], DateTime.now());
     widget.profitAndRevenueNotifier.value = profitAndRevenue;
 
+    // ignore: invalid_use_of_protected_member
     widget.profitAndRevenueNotifier.notifyListeners();
   }
 
@@ -37,9 +38,9 @@ class _page1State extends State<page1> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Padding(
-        padding: EdgeInsets.all(5),
+        padding: EdgeInsets.symmetric(horizontal: 8),
         child: Card(
-          elevation: 5,
+          elevation: 1,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

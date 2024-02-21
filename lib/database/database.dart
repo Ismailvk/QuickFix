@@ -169,8 +169,8 @@ class DatabaseHelper {
         whereArgs: [userId]);
     if (result.isNotEmpty) {
       final stockmap = result[0][coloumStockamount];
-      int? stock = stockmap ?? 0;
-      return stock ?? 0;
+      int stock = stockmap ?? 0;
+      return stock;
     } else {
       return 0; // Return 0 if the stock amount is not found
     }
@@ -482,6 +482,36 @@ class DatabaseHelper {
       return choiceChipsValue;
     } else {
       return null; // Row not found
+    }
+  }
+
+  Future<int> getSpareAmount(int userId) async {
+    Database? db = await instance.database;
+    final result = await db?.query(
+      detailsTable,
+      columns: [coloumSpareAmount],
+      where: '$detailscoloumId = ?',
+      whereArgs: [userId],
+    );
+    if (result != null && result[0][coloumSpareAmount] != null) {
+      return result[0][coloumSpareAmount] as int;
+    } else {
+      return 0;
+    }
+  }
+
+  Future<int> getServiceAmount(int userId) async {
+    Database? db = await instance.database;
+    final result = await db?.query(
+      detailsTable,
+      columns: [coloumServiceAmount],
+      where: '$detailscoloumId = ?',
+      whereArgs: [userId],
+    );
+    if (result != null && result[0][coloumServiceAmount] != null) {
+      return result[0][coloumServiceAmount] as int;
+    } else {
+      return 0;
     }
   }
 }
