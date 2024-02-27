@@ -1,6 +1,7 @@
 import 'package:first_project/database/database.dart';
 import 'package:first_project/screen/widget/text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class ScreenStock extends StatefulWidget {
   ScreenStock({Key? key, required this.logeduser}) : super(key: key);
@@ -166,7 +167,7 @@ class _ScreenStockState extends State<ScreenStock> {
           );
         }
       },
-    );
+    ).animate().scaleX();
   }
 
   updateButtonPressed() async {

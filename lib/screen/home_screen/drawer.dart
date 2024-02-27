@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:first_project/database/database.dart';
+import 'package:first_project/database/db/database.dart';
 import 'package:first_project/screen/home_screen/drawer_edit.dart';
 import 'package:first_project/screen/privacy_policy/privacy_policy.dart';
 import 'package:first_project/screen/revenue/tab_bar.dart';
@@ -69,12 +69,12 @@ class _NavBarState extends State<NavBar> {
               height: MediaQuery.of(context).size.height * 0.25,
               width: double.infinity,
               child: Card(
-                color: Colors.black,
+                color: Colors.grey.shade300,
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: Container(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 25),
                         CircleAvatar(
@@ -91,22 +91,22 @@ class _NavBarState extends State<NavBar> {
                         SizedBox(height: 5),
                         Container(
                           child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(height: 10),
                               Text(
                                 widget.logeduser[DatabaseHelper.coloumName],
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Colors.white),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
                               ),
                               Text(
                                 widget.logeduser[DatabaseHelper.coloumEmail],
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: Colors.white),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
                               ),
                             ],
                           ),

@@ -31,7 +31,12 @@ class _ScreenAddState extends State<ScreenAdd> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Add Details'), centerTitle: true),
+      appBar: AppBar(
+          leading: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Icon(Icons.arrow_back_ios_new)),
+          title: Text('Add Details'),
+          centerTitle: true),
       body: ListView(
         children: [
           Padding(

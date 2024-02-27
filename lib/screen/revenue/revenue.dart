@@ -1,6 +1,7 @@
 import 'package:first_project/database/database.dart';
 import 'package:first_project/screen/widget/text_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
@@ -64,7 +65,7 @@ class _RevenueWidgetState extends State<RevenueWidget> {
                   isExpanded: true,
                   icon: Padding(
                     padding: const EdgeInsets.only(right: 12),
-                    child: FaIcon(FontAwesomeIcons.codeCompare),
+                    child: Icon(Icons.keyboard_arrow_down_outlined),
                   ),
                   value: valuechoose,
                   items: listvalue.map((String newvalue) {
@@ -91,7 +92,103 @@ class _RevenueWidgetState extends State<RevenueWidget> {
                       todayRevenueAndProfit();
                     }
                     if (newvalue == 'Custom Range') {
-                      customDate();
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30)),
+                              height: 250,
+                              child: Form(
+                                key: formKeys,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'CUSTOM RANGE',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    SizedBox(height: 15),
+                                    TextFormFieldWidget(
+                                      validator: (value) {
+                                        if (value == null ||
+                                            startDateController.text
+                                                .trim()
+                                                .isEmpty) {
+                                          return 'Please select your starting date';
+                                        } else {
+                                          return null;
+                                        }
+                                      },
+                                      hinttext: 'Start Date',
+                                      controllerr: startDateController,
+                                      sufix: true,
+                                      read: true,
+                                    ),
+                                    SizedBox(height: 10),
+                                    TextFormFieldWidget(
+                                        read: true,
+                                        sufix: true,
+                                        validator: (value) {
+                                          if (value == null ||
+                                              endDateController.text
+                                                  .trim()
+                                                  .isEmpty) {
+                                            return 'Please select your date';
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                        hinttext: 'End Date',
+                                        controllerr: endDateController),
+                                    SizedBox(height: 10),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 41, 161, 110),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              minimumSize: Size(120, 40)),
+                                          onPressed: () async {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('Cancel'),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Color.fromARGB(
+                                                  255, 41, 161, 110),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                              ),
+                                              minimumSize: Size(120, 40)),
+                                          onPressed: () async {
+                                            if (formKeys.currentState!
+                                                .validate()) {
+                                              customDate();
+                                              Navigator.pop(context);
+                                            }
+                                          },
+                                          child: Text('Ok'),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
                     }
                     setState(() {
                       valuechoose = newvalue;
@@ -106,58 +203,6 @@ class _RevenueWidgetState extends State<RevenueWidget> {
                 ),
               ),
             ),
-            Visibility(
-                visible: isvisible,
-                child: Form(
-                  key: formKeys,
-                  child: Column(
-                    children: [
-                      TextFormFieldWidget(
-                        validator: (value) {
-                          if (value == null ||
-                              startDateController.text.trim().isEmpty) {
-                            return 'Please select your starting date';
-                          } else {
-                            return null;
-                          }
-                        },
-                        hinttext: 'Start Date',
-                        controllerr: startDateController,
-                        sufix: true,
-                        read: true,
-                      ),
-                      SizedBox(height: 10),
-                      TextFormFieldWidget(
-                          read: true,
-                          sufix: true,
-                          validator: (value) {
-                            if (value == null ||
-                                endDateController.text.trim().isEmpty) {
-                              return 'Please select your date';
-                            } else {
-                              return null;
-                            }
-                          },
-                          hinttext: 'End Date',
-                          controllerr: endDateController),
-                      SizedBox(height: 10),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(255, 41, 161, 110),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            minimumSize: Size(120, 40)),
-                        onPressed: () async {
-                          if (formKeys.currentState!.validate()) {
-                            customDate();
-                          }
-                        },
-                        child: Text('Ok'),
-                      ),
-                    ],
-                  ),
-                )),
             ListView(
               shrinkWrap: true,
               children: [
@@ -238,7 +283,7 @@ class _RevenueWidgetState extends State<RevenueWidget> {
           ],
         ),
       ),
-    );
+    ).animate().scaleX();
   }
 
   // Get today revenue and profit
@@ -264,8 +309,6 @@ class _RevenueWidgetState extends State<RevenueWidget> {
     setState(() {
       profits = profitAndrevenuelist!['profitAmount'].toString();
       revenues = profitAndrevenuelist!['revenueAmount'].toString();
-      print('Profit $profits');
-      print('Revenue $revenues');
     });
   }
 
@@ -281,8 +324,6 @@ class _RevenueWidgetState extends State<RevenueWidget> {
       if (profitAndrevenuelist != null && profitAndrevenuelist!.isNotEmpty) {
         profits = profitAndrevenuelist!['profitAmount'].toString();
         revenues = profitAndrevenuelist!['revenueAmount'].toString();
-        print('Profit c $profits');
-        print('Revenue c$revenues');
       }
     });
   }
