@@ -9,6 +9,7 @@ class ScreenSignup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     final _signupKey = GlobalKey<FormState>();
     TextEditingController usernameController = TextEditingController();
     TextEditingController emailController = TextEditingController();
@@ -21,7 +22,7 @@ class ScreenSignup extends StatelessWidget {
           Column(
             children: [
               Container(
-                height: 280,
+                height: size.height / 2.8,
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius:
@@ -29,20 +30,22 @@ class ScreenSignup extends StatelessWidget {
                   color: Color.fromARGB(255, 41, 161, 110),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 40, top: 60),
+                  padding: EdgeInsets.only(
+                      left: size.width / 9, top: size.height / 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Sign Up',
                         style: TextStyle(
-                            fontSize: 50,
+                            fontSize: size.width / 7.2,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
                       SizedBox(height: 5),
                       Text('Creat your account',
-                          style: TextStyle(color: Colors.white, fontSize: 20))
+                          style: TextStyle(
+                              color: Colors.white, fontSize: size.width / 17))
                     ],
                   ),
                 ),
@@ -66,7 +69,6 @@ class ScreenSignup extends StatelessWidget {
                           hinttext: 'Username',
                           icon: Icons.person,
                           controllerr: usernameController),
-                      SizedBox(height: 20),
                       TextFormFieldWidget(
                           validator: (value) {
                             if (value == null ||
@@ -84,25 +86,28 @@ class ScreenSignup extends StatelessWidget {
                           hinttext: 'Email',
                           icon: Icons.email_outlined,
                           controllerr: emailController),
-                      SizedBox(height: 20),
-                      TextFormFieldWidget(
-                          validator: (value) {
-                            if (value!.isEmpty ||
-                                !RegExp(r"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$")
-                                    .hasMatch(value)) {
-                              return 'Enter Correct Password';
-                            } else {
-                              return null;
-                            }
-                          },
-                          hinttext: 'Password',
-                          icon: Icons.key,
-                          controllerr: passwordController)
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                            minHeight: size.height / 10,
+                            maxHeight: size.height / 10),
+                        child: TextFormFieldWidget(
+                            validator: (value) {
+                              if (value!.isEmpty ||
+                                  !RegExp(r"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$")
+                                      .hasMatch(value)) {
+                                return 'Enter Correct Password';
+                              } else {
+                                return null;
+                              }
+                            },
+                            hinttext: 'Password',
+                            icon: Icons.key,
+                            controllerr: passwordController),
+                      )
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 15),
               ElevatedButton(
                 child: Text('Register'),
                 onPressed: () async {
@@ -155,9 +160,9 @@ class ScreenSignup extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(255, 41, 161, 110),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
+                      borderRadius: BorderRadius.circular(20)),
                   side: BorderSide(width: 1, color: Colors.white),
-                  minimumSize: Size(280, 50),
+                  minimumSize: Size(size.width / 1.6, size.height / 14),
                 ),
               ),
               SizedBox(height: 8),

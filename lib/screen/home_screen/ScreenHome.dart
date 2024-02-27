@@ -64,6 +64,7 @@ class _ScreenHomeState extends State<ScreenHome> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return Theme(
       data: Theme.of(context).copyWith(
           drawerTheme: DrawerThemeData(
@@ -96,15 +97,15 @@ class _ScreenHomeState extends State<ScreenHome> {
           appBarForegroundColor: Colors.black,
           pinned: true,
           fadeOffset: 120,
-          expandedHeight: 400,
+          expandedHeight: size.height / 2,
           backgroundColor: Colors.white,
           fadeWidget: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 35),
+              SizedBox(height: size.height / 22),
               Container(
-                height: 70,
+                height: size.height / 11,
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -170,8 +171,8 @@ class _ScreenHomeState extends State<ScreenHome> {
                     effect: SlideEffect(
                         spacing: 8.0,
                         radius: 4.0,
-                        dotWidth: 12,
-                        dotHeight: 12,
+                        dotWidth: size.width / 25,
+                        dotHeight: size.height / 80,
                         paintStyle: PaintingStyle.stroke,
                         strokeWidth: 1.5,
                         dotColor: Colors.grey,
@@ -182,9 +183,9 @@ class _ScreenHomeState extends State<ScreenHome> {
             ],
           ),
           bottomWidget: Container(
-            height: 65,
+            height: size.height / 12.02,
             child: SizedBox(
-              height: 55,
+              height: size.height / 13,
               width: double.infinity,
               child: ListView.builder(
                 shrinkWrap: true,
@@ -200,7 +201,7 @@ class _ScreenHomeState extends State<ScreenHome> {
                     },
                     child: Container(
                       margin: EdgeInsets.all(5),
-                      width: 100, // Adjust the width as per your preference
+                      width: size.width / 4,
                       decoration: BoxDecoration(
                         color: current == index
                             ? Color.fromARGB(255, 41, 161, 110)

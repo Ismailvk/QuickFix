@@ -32,9 +32,13 @@ class TextFormFieldWidget extends StatefulWidget {
 class _TextFormFieldWidgetState extends State<TextFormFieldWidget> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 360,
-      height: 60,
+    final size = MediaQuery.sizeOf(context);
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+          minWidth: size.width / 2,
+          maxWidth: size.width / 1.06,
+          minHeight: size.height / 10,
+          maxHeight: size.height / 10),
       child: TextFormField(
         validator: widget.validator,
         keyboardType: widget.keybordTypes == true

@@ -14,6 +14,7 @@ class ScreenSignIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return Scaffold(
       body: ListView(
         padding: EdgeInsets.zero,
@@ -24,7 +25,7 @@ class ScreenSignIn extends StatelessWidget {
             child: Column(
               children: [
                 Container(
-                  height: 280,
+                  height: size.height / 2.7,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius:
@@ -32,25 +33,27 @@ class ScreenSignIn extends StatelessWidget {
                     color: Color.fromARGB(255, 41, 161, 110),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 40, top: 60),
+                    padding: EdgeInsets.only(
+                        left: size.width / 9, top: size.height / 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Sign In',
                           style: TextStyle(
-                              fontSize: 50,
+                              fontSize: size.width / 7,
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
                         SizedBox(height: 5),
                         Text('Sign into your account',
-                            style: TextStyle(color: Colors.white, fontSize: 20))
+                            style: TextStyle(
+                                color: Colors.white, fontSize: size.width / 17))
                       ],
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: size.height / 13),
                 TextFormFieldWidget(
                     validator: (value) {
                       if (value!.isEmpty ||
@@ -64,7 +67,6 @@ class ScreenSignIn extends StatelessWidget {
                     controllerr: _emailController,
                     hinttext: 'Email',
                     icon: Icons.email_outlined),
-                SizedBox(height: 20),
                 TextFormFieldWidget(
                   validator: (value) {
                     if (value!.isEmpty ||
@@ -79,7 +81,6 @@ class ScreenSignIn extends StatelessWidget {
                   icon: Icons.key,
                   controllerr: _passwordController,
                 ),
-                SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () async {
                     loginValidation(context);
@@ -88,9 +89,9 @@ class ScreenSignIn extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 41, 161, 110),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25)),
+                        borderRadius: BorderRadius.circular(20)),
                     side: BorderSide(width: 1, color: Colors.white),
-                    minimumSize: Size(280, 50),
+                    minimumSize: Size(size.width / 1.6, size.height / 14),
                   ),
                 ),
                 SizedBox(height: 8),
