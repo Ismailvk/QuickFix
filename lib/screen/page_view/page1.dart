@@ -148,7 +148,6 @@ class _page1State extends State<page1> {
                     Container(
                       height: 170,
                       width: 120,
-                      // color: Colors.amber,
                       child: CircularPercentIndicator(
                         radius: 60,
                         lineWidth: 15,
