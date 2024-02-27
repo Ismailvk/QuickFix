@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:fade_scroll_app_bar/fade_scroll_app_bar.dart';
-import 'package:first_project/database/database.dart';
+import 'package:first_project/database/db/database.dart';
 import 'package:first_project/screen/page_view/page1.dart';
 import 'package:first_project/screen/page_view/page2.dart';
 import 'package:first_project/screen/add_screen/add_screen.dart';

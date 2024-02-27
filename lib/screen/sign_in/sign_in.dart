@@ -1,4 +1,4 @@
-import 'package:first_project/database/database.dart';
+import 'package:first_project/database/db/database.dart';
 import 'package:flutter/material.dart';
 import '../home_screen/ScreenHome.dart';
 import '../sign_up/sign_up.dart';

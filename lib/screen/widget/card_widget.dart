@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:first_project/database/database.dart';
+import 'package:first_project/database/db/database.dart';
 import 'package:flutter/material.dart';
 
 class CardWidget extends StatefulWidget {

@@ -1,4 +1,4 @@
-import 'package:first_project/database/database.dart';
+import 'package:first_project/database/db/database.dart';
 import 'package:first_project/screen/details_screen/details.dart';
 import 'package:first_project/screen/widget/card_widget.dart';
 import 'package:flutter/material.dart';
@@ -50,10 +50,10 @@ class _ScrreenSearchState extends State<ScrreenSearch> {
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.5), // Shadow color
-              spreadRadius: 0.7, // Spread radius
-              blurRadius: 40, // Blur radius
-              offset: Offset(0, 4), // Offset in the y-axis
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 0.7,
+              blurRadius: 40,
+              offset: Offset(0, 4),
             ),
           ],
           borderRadius: BorderRadius.circular(15),
@@ -136,9 +136,7 @@ class _ScrreenSearchState extends State<ScrreenSearch> {
     if (searchWord == null) {
       allList = await DatabaseHelper.instance
           .getinputdetails(widget.loggeduser[DatabaseHelper.usercoloumId]);
-      print('errorcode  $allList');
       setState(() {});
-      print(filterList);
     } else if (searchWord.isNotEmpty) {
       filterList = allList
           .where((details) => details['customerName']
@@ -146,7 +144,6 @@ class _ScrreenSearchState extends State<ScrreenSearch> {
               .toLowerCase()
               .contains(searchWord.toString().toLowerCase()))
           .toList();
-      print('Hai filter search $filterList');
       if (filterList.isEmpty) {
         isFoundResult = false;
       } else {

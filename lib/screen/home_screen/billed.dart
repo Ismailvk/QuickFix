@@ -1,4 +1,4 @@
-import 'package:first_project/database/database.dart';
+import 'package:first_project/database/db/database.dart';
 import 'package:first_project/screen/details_screen/details.dart';
 import 'package:first_project/screen/widget/card_widget.dart';
 import 'package:flutter/material.dart';

@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:first_project/database/database.dart';
+import 'package:first_project/database/db/database.dart';
 import 'package:first_project/screen/details_screen/show_picture.dart';
 import 'package:first_project/screen/home_screen/ScreenHome.dart';
 import 'package:first_project/screen/pdf_screen/pdf_screen.dart';
