@@ -39,10 +39,11 @@ class _ChoiceChipsWidgetState extends State<ChoiceChipsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return SizedBox(
       height: 150,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
           itemCount: choice.length,
@@ -64,8 +65,8 @@ class _ChoiceChipsWidgetState extends State<ChoiceChipsWidget> {
                 ),
               ),
               label: SizedBox(
-                height: 35,
-                width: 76,
+                height: size.height / 20,
+                width: size.width / 5,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [

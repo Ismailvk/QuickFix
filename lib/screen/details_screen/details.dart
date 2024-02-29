@@ -218,6 +218,7 @@ class _ScreenDetailsState extends State<ScreenDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return WillPopScope(
       onWillPop: () async {
         final value = await DatabaseHelper.instance
@@ -307,8 +308,8 @@ class _ScreenDetailsState extends State<ScreenDetails> {
                 ),
                 SizedBox(height: 8),
                 Container(
-                  width: double.infinity,
-                  height: MediaQuery.sizeOf(context).height * 0.86,
+                  width: size.width,
+                  height: size.height / 1.14,
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Card(
@@ -347,7 +348,8 @@ class _ScreenDetailsState extends State<ScreenDetails> {
                           ),
 
                           Padding(
-                            padding: const EdgeInsets.only(left: 30, top: 15),
+                            padding: EdgeInsets.only(
+                                left: size.width / 14, top: size.height / 40),
                             child: TextWidget(text1st: 'Spare used'),
                           ),
 
@@ -387,7 +389,6 @@ class _ScreenDetailsState extends State<ScreenDetails> {
                                           Validation.isEmpty(value!),
                                       hinttext: 'Comment',
                                       controllerr: commentController),
-                                  SizedBox(height: 10),
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor:
@@ -396,14 +397,14 @@ class _ScreenDetailsState extends State<ScreenDetails> {
                                           borderRadius:
                                               BorderRadius.circular(20),
                                         ),
-                                        minimumSize: Size(120, 40)),
+                                        minimumSize: Size(size.width / 1.15,
+                                            size.height / 13)),
                                     onPressed: () async {
                                       addYourAmountButton(
                                           commentController.text);
                                     },
                                     child: Text('Add your data'),
                                   ),
-                                  SizedBox(height: 10),
                                 ],
                               ),
                             ),

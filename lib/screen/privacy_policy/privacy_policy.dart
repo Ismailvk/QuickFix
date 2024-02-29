@@ -5,12 +5,14 @@ class ScreenPrivacyPolicy extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Privacy Policy'),
-        leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(Icons.arrow_back_ios)),
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(Icons.arrow_back_ios_new),
+        ),
+        title: Text(
+          'Privacy Policy',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
@@ -32,7 +34,7 @@ class ScreenPrivacyPolicy extends StatelessWidget {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             Text(
-              'Welcome to Phone Care! This Privacy Policy outlines our practices regarding the collection, use, and disclosure of personal and non-personal information when you use our mobile application.',
+              'Welcome to Mobile Care! This Privacy Policy outlines our practices regarding the collection, use, and disclosure of personal and non-personal information when you use our mobile application.',
             ),
             SizedBox(height: 8.0),
             Text(
@@ -109,7 +111,7 @@ class ScreenPrivacyPolicy extends StatelessWidget {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             Text(
-              'If you have any questions about this Privacy Policy, please contact us at privacy@phonecareapp.com.',
+              'If you have any questions about this Privacy Policy, please contact us at ismailkbassi00@gmail.com',
             ),
           ],
         ),

@@ -10,6 +10,7 @@ class PdfViewerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
@@ -22,7 +23,7 @@ class PdfViewerPage extends StatelessWidget {
           Container(
             color: Colors.grey[200],
             padding: const EdgeInsets.all(10),
-            height: 660,
+            height: size.height,
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black, width: 1.0),

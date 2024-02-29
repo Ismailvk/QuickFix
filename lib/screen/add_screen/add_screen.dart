@@ -50,11 +50,10 @@ class _ScreenAddState extends State<ScreenAdd> {
                     width: double.infinity,
                     child: InkWell(
                       onTap: () {
-                        addImage();
+                        _addImage();
                       },
                       child: Card(
                         shape: RoundedRectangleBorder(
-                          //<-- SEE HERE
                           side: BorderSide(
                             color: Colors.grey,
                           ),
@@ -105,7 +104,7 @@ class _ScreenAddState extends State<ScreenAdd> {
                                                   image!,
                                                   width: 330,
                                                   height: 220,
-                                                  fit: BoxFit.fill,
+                                                  fit: BoxFit.cover,
                                                 ),
                                         ],
                                       ),
@@ -151,7 +150,6 @@ class _ScreenAddState extends State<ScreenAdd> {
                       hinttext: 'Enter Customer name',
                       icon: Icons.person_outline,
                       controllerr: _customerNameController),
-                  SizedBox(height: 10),
                   TextFormFieldWidget(
                       validator: (value) {
                         if (value!.isEmpty ||
@@ -166,7 +164,6 @@ class _ScreenAddState extends State<ScreenAdd> {
                       icon: Icons.numbers_sharp,
                       controllerr: _PhoneNumberController,
                       keybordTypes: true),
-                  SizedBox(height: 10),
                   TextFormFieldWidget(
                       validator: (value) {
                         if (value!.isEmpty ||
@@ -179,7 +176,6 @@ class _ScreenAddState extends State<ScreenAdd> {
                       hinttext: 'Enter Device',
                       icon: Icons.phone_android,
                       controllerr: _deviceNameController),
-                  SizedBox(height: 10),
                   TextFormFieldWidget(
                       validator: (value) {
                         if (value!.isEmpty ||
@@ -192,7 +188,6 @@ class _ScreenAddState extends State<ScreenAdd> {
                       hinttext: 'Enter Model Name',
                       icon: Icons.mode_outlined,
                       controllerr: _modelNameController),
-                  SizedBox(height: 10),
                   TextFormFieldWidget(
                       validator: (value) {
                         if (value!.isEmpty ||
@@ -205,7 +200,6 @@ class _ScreenAddState extends State<ScreenAdd> {
                       hinttext: 'Enter Service required',
                       icon: Icons.design_services_outlined,
                       controllerr: _serviceRequiredController),
-                  SizedBox(height: 10),
                   TextFormFieldWidget(
                       validator: (value) {
                         if (value!.isEmpty ||
@@ -218,7 +212,6 @@ class _ScreenAddState extends State<ScreenAdd> {
                       hinttext: 'Enter Device Condition',
                       icon: Icons.report_gmailerrorred_outlined,
                       controllerr: _deviceConditionController),
-                  SizedBox(height: 10),
                   TextFormFieldWidget(
                       validator: (value) {
                         if (value!.isEmpty ||
@@ -231,7 +224,6 @@ class _ScreenAddState extends State<ScreenAdd> {
                       hinttext: 'Enter Sequrity Code',
                       icon: Icons.lock_open,
                       controllerr: _sequrityCodeController),
-                  SizedBox(height: 10),
                   TextFormFieldWidget(
                       validator: (value) {
                         if (value!.isEmpty ||
@@ -245,20 +237,22 @@ class _ScreenAddState extends State<ScreenAdd> {
                       icon: Icons.attach_money_outlined,
                       controllerr: _amountController,
                       keybordTypes: true),
-                  SizedBox(height: 10),
-                  TextFormFieldWidget(
-                    validator: (value) {
-                      if (value!.isEmpty || _date.text.trim().isEmpty) {
-                        return 'Please fill the field';
-                      } else {
-                        return null;
-                      }
-                    },
-                    hinttext: 'Choose Delivery Date',
-                    icon: Icons.edit,
-                    controllerr: _date,
-                    read: true,
-                    sufix: true,
+                  Container(
+                    height: 60,
+                    child: TextFormFieldWidget(
+                      validator: (value) {
+                        if (value!.isEmpty || _date.text.trim().isEmpty) {
+                          return 'Please fill the field';
+                        } else {
+                          return null;
+                        }
+                      },
+                      hinttext: 'Choose Delivery Date',
+                      icon: Icons.edit,
+                      controllerr: _date,
+                      read: true,
+                      sufix: true,
+                    ),
                   ),
                   SizedBox(height: 10),
                   Container(
@@ -287,16 +281,48 @@ class _ScreenAddState extends State<ScreenAdd> {
     );
   }
 
-  addImage() async {
-    final images = await ImagePicker().pickImage(source: ImageSource.camera);
-    if (images == null) {
-      return;
-    }
-    final imageFile = File(images.path);
+  Future<void> _addImage() async {
+    final picker = ImagePicker();
+    await showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(Icons.photo_library),
+                  title: Text('Choose from gallery'),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    final galleryImage =
+                        await picker.pickImage(source: ImageSource.gallery);
+                    final galleryFile = File(galleryImage!.path);
+                    _setImage(galleryFile);
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.camera_alt),
+                  title: Text('Take a picture'),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    final cameraImage =
+                        await picker.pickImage(source: ImageSource.camera);
+                    final cameraFile = File(cameraImage!.path);
+                    _setImage(cameraFile);
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
 
-    setState(() {
-      this.image = imageFile;
-    });
+  void _setImage(File? pickedFile) {
+    if (pickedFile != null) {
+      setState(() {
+        this.image = File(pickedFile.path);
+      });
+    }
   }
 
   // image add error message

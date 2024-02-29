@@ -96,128 +96,129 @@ class _ScreenHomeState extends State<ScreenHome> {
               Text('Welcome , ${widget.loggeduser[DatabaseHelper.coloumName]}'),
           appBarForegroundColor: Colors.black,
           pinned: true,
-          fadeOffset: 120,
-          expandedHeight: size.height / 2,
+          fadeOffset: 140,
+          expandedHeight: size.height / 1.99,
           backgroundColor: Colors.white,
-          fadeWidget: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: size.height / 22),
-              Container(
-                height: size.height / 11,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 0.7,
-                      blurRadius: 40,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: TextField(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ScrreenSearch(
-                                loggeduser: widget.loggeduser,
-                                profitAndRevenueNotifier:
-                                    profitAndRevenueNotifier,
-                              )));
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'Search here',
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: InputBorder.none,
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Colors.black,
+          fadeWidget: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: size.height / 10),
+                Container(
+                  height: size.height / 12,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 0.7,
+                        blurRadius: 40,
+                        offset: Offset(0, 4),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.transparent),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
+                    ],
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: TextField(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ScrreenSearch(
+                                  loggeduser: widget.loggeduser,
+                                  profitAndRevenueNotifier:
+                                      profitAndRevenueNotifier,
+                                )));
+                      },
+                      decoration: InputDecoration(
+                        hintText: 'Search here',
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: InputBorder.none,
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Colors.black,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Column(
-                children: [
-                  Container(
-                    height: MediaQuery.of(context).size.height / 3.9,
-                    child: PageView(
-                      controller: _pageController,
-                      children: [
-                        page1(
-                            loggeduser: widget.loggeduser,
-                            profitAndRevenueNotifier: profitAndRevenueNotifier),
-                        page2(loggeduser: widget.loggeduser)
-                      ],
+                Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height / 3.8,
+                      child: PageView(
+                        controller: _pageController,
+                        children: [
+                          page1(
+                              loggeduser: widget.loggeduser,
+                              profitAndRevenueNotifier:
+                                  profitAndRevenueNotifier),
+                          page2(loggeduser: widget.loggeduser)
+                        ],
+                      ),
                     ),
-                  ),
-                  SmoothPageIndicator(
-                    controller: _pageController,
-                    count: 2,
-                    effect: SlideEffect(
-                        spacing: 8.0,
-                        radius: 4.0,
-                        dotWidth: size.width / 25,
-                        dotHeight: size.height / 80,
-                        paintStyle: PaintingStyle.stroke,
-                        strokeWidth: 1.5,
-                        dotColor: Colors.grey,
-                        activeDotColor: Color.fromARGB(255, 41, 161, 110)),
-                  )
-                ],
-              ),
-            ],
+                    SmoothPageIndicator(
+                      controller: _pageController,
+                      count: 2,
+                      effect: SlideEffect(
+                          spacing: 8.0,
+                          radius: 4.0,
+                          dotWidth: size.width / 25,
+                          dotHeight: size.height / 80,
+                          paintStyle: PaintingStyle.stroke,
+                          strokeWidth: 1.5,
+                          dotColor: Colors.grey,
+                          activeDotColor: Color.fromARGB(255, 41, 161, 110)),
+                    ),
+                    SizedBox(height: 10)
+                  ],
+                ),
+              ],
+            ),
           ),
           bottomWidget: Container(
-            height: size.height / 12.02,
-            child: SizedBox(
-              height: size.height / 13,
-              width: double.infinity,
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: items.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        current = index;
-                      });
-                    },
-                    child: Container(
-                      margin: EdgeInsets.all(5),
-                      width: size.width / 4,
-                      decoration: BoxDecoration(
-                        color: current == index
-                            ? Color.fromARGB(255, 41, 161, 110)
-                            : Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(items[index]),
-                        ),
+            height: size.height / 13,
+            width: double.infinity,
+            child: ListView.builder(
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
+              itemCount: items.length,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      current = index;
+                    });
+                  },
+                  child: Container(
+                    margin: EdgeInsets.all(5),
+                    width: size.width / 4,
+                    decoration: BoxDecoration(
+                      color: current == index
+                          ? Color.fromARGB(255, 41, 161, 110)
+                          : Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(items[index]),
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ),
           child: SingleChildScrollView(

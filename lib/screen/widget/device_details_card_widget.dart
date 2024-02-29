@@ -28,6 +28,7 @@ class DeviceDetailsCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return Card(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -42,8 +43,8 @@ class DeviceDetailsCardWidget extends StatelessWidget {
               children: [
                 Expanded(
                   child: Container(
-                    margin:
-                        EdgeInsets.only(left: 5, right: 5, top: 40, bottom: 14),
+                    margin: EdgeInsets.only(
+                        left: 5, right: 5, top: size.height / 25),
                     child: Text(
                       'Name: $name',
                       style:
@@ -51,11 +52,11 @@ class DeviceDetailsCardWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 50),
+                SizedBox(width: size.width / 8),
                 Expanded(
                   child: Container(
-                    margin:
-                        EdgeInsets.only(left: 5, right: 5, top: 40, bottom: 14),
+                    margin: EdgeInsets.only(
+                        left: 5, right: 5, top: size.height / 20),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -72,15 +73,13 @@ class DeviceDetailsCardWidget extends StatelessWidget {
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 5),
-                    height: 165,
+                    height: size.height / 4.5,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextWidget(text1st: 'Device:'),
                         TextWidget(text1st: device),
-                        SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(height: 10),
                         TextWidget(text1st: 'Condition:'),
                         TextWidget(text1st: condition),
                         SizedBox(height: 10),
@@ -96,15 +95,15 @@ class DeviceDetailsCardWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 50),
+                SizedBox(width: size.width / 8),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.symmetric(horizontal: 5),
-                    height: 125,
+                    height: size.height / 4.4,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
+                        SizedBox(height: size.height / 22),
                         TextWidget(text1st: 'Model:'),
                         TextWidget(text1st: model),
                         SizedBox(height: 10),

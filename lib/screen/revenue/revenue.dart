@@ -2,7 +2,6 @@ import 'package:first_project/database/db/database.dart';
 import 'package:first_project/screen/widget/text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 class RevenueWidget extends StatefulWidget {
@@ -42,6 +41,7 @@ class _RevenueWidgetState extends State<RevenueWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.sizeOf(context);
     return SingleChildScrollView(
       child: Container(
         height: isvisible == true ? 800 : 600,
@@ -56,7 +56,6 @@ class _RevenueWidgetState extends State<RevenueWidget> {
                     borderRadius: BorderRadius.circular(10)),
                 height: 55,
                 child: DropdownButton<String>(
-                  //Drop down widget .......
                   underline: SizedBox(),
                   hint: Padding(
                     padding: const EdgeInsets.only(left: 12),
@@ -110,43 +109,48 @@ class _RevenueWidgetState extends State<RevenueWidget> {
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    SizedBox(height: 15),
-                                    TextFormFieldWidget(
-                                      validator: (value) {
-                                        if (value == null ||
-                                            startDateController.text
-                                                .trim()
-                                                .isEmpty) {
-                                          return 'Please select your starting date';
-                                        } else {
-                                          return null;
-                                        }
-                                      },
-                                      hinttext: 'Start Date',
-                                      controllerr: startDateController,
-                                      sufix: true,
-                                      read: true,
-                                    ),
-                                    SizedBox(height: 10),
-                                    TextFormFieldWidget(
-                                        read: true,
-                                        sufix: true,
+                                    Container(
+                                      height: 60,
+                                      child: TextFormFieldWidget(
                                         validator: (value) {
                                           if (value == null ||
-                                              endDateController.text
+                                              startDateController.text
                                                   .trim()
                                                   .isEmpty) {
-                                            return 'Please select your date';
+                                            return 'Please select your starting date';
                                           } else {
                                             return null;
                                           }
                                         },
-                                        hinttext: 'End Date',
-                                        controllerr: endDateController),
+                                        hinttext: 'Start Date',
+                                        controllerr: startDateController,
+                                        sufix: true,
+                                        read: true,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Container(
+                                      height: 60,
+                                      child: TextFormFieldWidget(
+                                          read: true,
+                                          sufix: true,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                endDateController.text
+                                                    .trim()
+                                                    .isEmpty) {
+                                              return 'Please select your date';
+                                            } else {
+                                              return null;
+                                            }
+                                          },
+                                          hinttext: 'End Date',
+                                          controllerr: endDateController),
+                                    ),
                                     SizedBox(height: 10),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
@@ -156,7 +160,7 @@ class _RevenueWidgetState extends State<RevenueWidget> {
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                               ),
-                                              minimumSize: Size(120, 40)),
+                                              minimumSize: Size(110, 40)),
                                           onPressed: () async {
                                             Navigator.pop(context);
                                           },
@@ -170,7 +174,7 @@ class _RevenueWidgetState extends State<RevenueWidget> {
                                                 borderRadius:
                                                     BorderRadius.circular(10),
                                               ),
-                                              minimumSize: Size(120, 40)),
+                                              minimumSize: Size(110, 40)),
                                           onPressed: () async {
                                             if (formKeys.currentState!
                                                 .validate()) {
@@ -246,11 +250,11 @@ class _RevenueWidgetState extends State<RevenueWidget> {
                               ],
                             ),
                             SizedBox(
-                                width: MediaQuery.sizeOf(context).width / 6),
+                                width: MediaQuery.sizeOf(context).width / 8),
                             Container(
                                 color: Colors.white, width: 8, height: 80),
                             SizedBox(
-                                width: MediaQuery.sizeOf(context).width / 7),
+                                width: MediaQuery.sizeOf(context).width / 8),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
